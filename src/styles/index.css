@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .prose {
+    color: theme('colors.ink.700');
+    line-height: 1.7;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .prose h1 { @apply mt-8 mb-3 text-2xl sm:text-3xl font-extrabold text-ink-900; }
+  .prose h2 { @apply mt-8 mb-3 text-xl sm:text-2xl font-extrabold text-ink-900; }
+  .prose h3 { @apply mt-6 mb-2 text-lg sm:text-xl font-bold text-ink-900; }
+  .prose p { @apply my-3; }
+  .prose a { @apply text-brand-700 underline underline-offset-2 hover:text-brand-800 break-words; }
+  .prose strong { @apply font-bold text-ink-900; }
+  .prose em { @apply italic; }
+  .prose ul { @apply my-3 ml-5 list-disc space-y-1.5; }
+  .prose ol { @apply my-3 ml-5 list-decimal space-y-1.5; }
+  .prose blockquote { @apply my-4 border-l-4 border-brand-200 bg-brand-50/40 px-4 py-2 text-ink-700; }
+  .prose code { @apply rounded bg-ink-100 px-1.5 py-0.5 text-xs font-mono text-ink-800; }
+  .prose pre { @apply my-4 overflow-x-auto rounded-xl bg-ink-900 p-4 text-sm text-ink-100; }
+  .prose pre code { @apply bg-transparent p-0 text-ink-100; }
+  .prose img { @apply my-4 w-full h-auto rounded-xl; }
+  .prose hr { @apply my-6 border-ink-100; }
+  .prose [data-placeholder]:before {
+    content: attr(data-placeholder);
+    @apply pointer-events-none float-left h-0 text-ink-400;
+  }
+  .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    @apply pointer-events-none float-left h-0 text-ink-400;
+  }
+
+  /* iOS safe-area helpers for sticky bars & bottom-anchored UI */
+  .safe-top    { padding-top:    env(safe-area-inset-top); }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-x      {
+    padding-left:  env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Lock body scroll when overlays are open */
+  .no-scroll { overflow: hidden; touch-action: none; }
+
+  /* Prevent media from forcing horizontal scroll */
+  .fluid-media img,
+  .fluid-media video,
+  .fluid-media iframe { max-width: 100%; height: auto; }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-white text-ink-800 font-sans;
+    /* Prevent rogue children from causing horizontal scroll on mobile */
+    overflow-x: hidden;
+  }
+  /* Flex/grid children should be allowed to shrink — fixes truncation bugs */
+  :where(main, section, header, footer, article, aside) { min-width: 0; }
+
+  /* Long words (URLs, emails, slugs) should wrap instead of overflowing */
+  :where(p, li, h1, h2, h3, h4, h5, h6, dt, dd, td, th, label) {
+    overflow-wrap: break-word;
+  }
+
+  /* Images/videos default to fluid */
+  img, video, svg, canvas, iframe { max-width: 100%; }
+  img, video { height: auto; }
+
+  ::selection {
+    @apply bg-brand-500/20 text-brand-900;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-brand-500 disabled:opacity-50 disabled:cursor-not-allowed sm:px-5;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white hover:bg-brand-700 shadow-soft;
+  }
+  .btn-outline {
+    @apply btn border border-ink-200 text-ink-800 hover:bg-ink-50;
+  }
+  .btn-ghost {
+    @apply btn text-ink-700 hover:bg-ink-100;
+  }
+  /* Inputs: 16px base on mobile to avoid iOS focus-zoom; tighter on sm+ */
+  .input {
+    @apply w-full rounded-xl border border-ink-200 bg-white px-4 py-2.5 text-base text-ink-900 placeholder:text-ink-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100 transition sm:text-sm;
+  }
+  .card {
+    @apply rounded-2xl bg-white shadow-card border border-ink-100;
+  }
+  .container-x {
+    @apply container mx-auto;
+  }
+  /* Section vertical rhythm — kept tight so pages don't feel airy */
+  .section {
+    @apply py-6 sm:py-8 md:py-10 lg:py-12 xl:py-14;
+  }
+  .section-tight {
+    @apply py-4 sm:py-6 md:py-8 lg:py-10;
+  }
+}
